@@ -19,6 +19,7 @@ dalej swobodnie używać na warunkach tych licencji).
 | Dane | Licencja | Wymóg |
 |---|---|---|
 | Zbiory z dane.gov.pl w `tests/fixtures` | CC0 1.0 / CC BY 4.0 | szczegóły w `tests/fixtures/README.md` |
+| axe-core 4.14.1 w `tests/vendor/axe-core` (tylko testy dostępności, nie trafia na stronę) | MPL-2.0 | `tests/vendor/axe-core/LICENSE` |
 
 ## Usługi zewnętrzne (wywoływane z przeglądarki użytkownika, bez kluczy)
 

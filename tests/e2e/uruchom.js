@@ -15,7 +15,7 @@ const path = require('path');
 const { uruchom } = require('./cdp');
 
 const KORZEN = path.resolve(__dirname, '..', '..');
-const TESTY = ['podstawy', 'przeplyw', 'formularz', 'gov'];
+const TESTY = ['podstawy', 'przeplyw', 'formularz', 'gov', 'dostepnosc'];
 
 function wolnyPort() {
   return new Promise(function (ok, nie) {

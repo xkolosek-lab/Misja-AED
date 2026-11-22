@@ -54,7 +54,8 @@
       if (biezaca) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
 
-    document.title = NAZWA_SERWISU;
+    // WCAG 2.4.2: tytuł opisuje bieżący ekran; na stronie startowej sama nazwa serwisu
+    document.title = (trasa !== 'start' && h1 ? h1.textContent.trim().replace(/\s+/g, ' ') + ' – ' : '') + NAZWA_SERWISU;
 
     // Przy pierwszym wczytaniu nie przejmujemy fokusu (użytkownik zaczyna od początku strony)
     if (!pierwszeWejscie && h1) {

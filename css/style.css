@@ -167,7 +167,15 @@ html { scroll-padding-bottom: 6rem; scroll-padding-top: 1rem; }
 /* ---- Karty ---- */
 .cards { display: grid; gap: var(--gap); margin-block: 1.5rem; }
 .cards--2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr)); }
-.cards--sources { grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+.cards--sources { grid-template-columns: repeat(2, minmax(0, 1fr)); }   /* dwie równe kolumny (karta dane.gov.pl pod spodem na całą szerokość) */
+@media (max-width: 47.99rem) { .cards--sources { grid-template-columns: 1fr; } }
+/* karty „Plik od dysponenta” i „Formularz”: treść wyśrodkowana, przyciski na dole na tej samej wysokości */
+.source-card:not(.source-card--wide) { text-align: center; align-items: center; }
+.source-card:not(.source-card--wide) .card__title { justify-content: center; }
+.source-card:not(.source-card--wide) > p { max-width: 30rem; }
+.source-card:not(.source-card--wide) .pobierz-szablon { align-items: center; }
+.source-card:not(.source-card--wide) .dropzone { align-self: stretch; }
+.source-card:not(.source-card--wide) > .btn:last-child { margin-top: auto; align-self: stretch; }
 .card {
   background: var(--c-bg); border: 1px solid var(--c-border-soft); border-radius: var(--radius-card);
   padding: 1.25rem; display: flex; flex-direction: column; gap: .5rem;
@@ -487,6 +495,8 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
   .stepper { display: none; }
   .stepper-compact { display: block; }
   .top-nav { width: 100%; }
+  /* WCAG 2.2 (2.4.11): przy przewijaniu do pola z fokusem zostaw miejsce na przypięty pasek „Wstecz / Następny krok” */
+  html { scroll-padding-bottom: 6.5rem; }
   /* telefon: nagłówek nadal większy niż pierwotnie, ale mieści się w 320 px */
   .brand { font-size: 1.4rem; }
   .brand__icon { height: 52px; }

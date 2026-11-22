@@ -98,6 +98,11 @@ Tokeny w `:root` (`css/style.css`) mają wartości odczytane z arkuszy www.gov.p
 `#808893`, stan nieaktywny `#656565`, czerwień `#d5233f` (linia stopki). Kontrast tekstu ≥ 4,5:1, elementów UI ≥ 3:1
 (liczby przy tokenach). Przyciski zablokowane używają `aria-disabled` (zostają w kolejności Tab i mają opis przyczyny).
 
+Zgodność z WCAG 2.2 AA sprawdza test e2e `dostepnosc` (`node tests/e2e/uruchom.js dostepnosc`): audyt axe-core
+(reguły WCAG 2.0/2.1/2.2, poziomy A i AA) na wszystkich ekranach – bez danych i z danymi w krokach 1–4 – przy 1280 px
+i 360 px, tytuł strony opisujący bieżący ekran (2.4.2) oraz to, że przypięty pasek „Wstecz / Następny krok” na telefonie
+nie zasłania elementu z fokusem (2.4.11). Audyt automatyczny nie zastępuje testu z czytnikiem ekranu (NVDA, VoiceOver).
+
 ## Wzorzec danych – jedno źródło prawdy
 
 ```
