@@ -18,7 +18,7 @@ module.exports = async function (t) {
   // każdy skrypt dołączony dokładnie raz (podwójny gov.js resetował stan)
   const duble = await b.ocen("(function(){ const n = {}; document.querySelectorAll('script[src]').forEach(function (s) { const k = s.getAttribute('src'); n[k] = (n[k] || 0) + 1; }); return Object.keys(n).filter(function (k) { return n[k] > 1; }); })()");
   ok(!duble.length, 'każdy <script src> dołączony tylko raz', duble);
-  ok(await b.ocen("getComputedStyle(document.querySelector('.brand__portal'), '::before').content === 'none'"), 'nagłówek bez czerwonej pionowej kreski z gov.pl');
+  ok(await b.ocen("(function(){ const s = getComputedStyle(document.querySelector('.brand__portal'), '::before'); return s.content !== 'none' && s.backgroundColor === 'rgb(213, 35, 63)' && s.width === '2px'; })()"), 'nagłówek: czerwona pionowa kreska jak na gov.pl między marką a „Dane o defibrylatorach AED”');
   // tokeny kolorów jak gov.pl
   ok(await b.ocen("getComputedStyle(document.documentElement).getPropertyValue('--c-primary').trim() === '#0052a5' && getComputedStyle(document.querySelector('.btn--primary')).backgroundColor === 'rgb(0, 82, 165)'"),
     'kolor podstawowy #0052a5 (gov.pl) na przycisku głównym');

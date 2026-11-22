@@ -236,8 +236,7 @@
         <p>Te informacje wpiszesz w portalu przy dodawaniu zbioru albo pobierzesz jako plik XML dla harvestera.
           Pola oznaczone gwiazdką (*) są obowiązkowe.</p>
         <div id="wyn-metadane"></div>
-        <section class="gov-wysylka" id="gov-wysylka" aria-labelledby="h-gov">
-          <h2 id="h-gov" tabindex="-1">Wyślij do zatwierdzenia przez bazę gov.pl</h2>
+        <section class="gov-wysylka" id="gov-wysylka" aria-label="Wyślij do zatwierdzenia przez bazę gov.pl">
           <div id="gov-tresc"></div>
         </section>
         <h2 id="h-wyn-pliki" tabindex="-1">Pobierz pliki</h2>
@@ -294,19 +293,31 @@
   <footer class="site-footer">
     <div class="container">
       <h2 class="visually-hidden">Stopka</h2>
-      <div class="site-footer__links">
-        <a class="site-footer__logo" href="#start"><img src="img/logo.png" alt="" width="28" height="30"><span>Namiar na Puls</span></a>
-        <ul>
-          <li><a href="https://www.gov.pl/web/gov/polityka-dotyczaca-cookies" target="_blank" rel="noopener noreferrer">Polityka cookies<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
-          <li><a href="https://www.gov.pl/web/gov/prawa-autorskie" target="_blank" rel="noopener noreferrer">Prawa autorskie<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
-          <li><a href="https://www.gov.pl/web/gov/warunki-korzystania" target="_blank" rel="noopener noreferrer">Warunki korzystania<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
-          <li><button type="button" id="manage-consent" class="privacy-settings-button" aria-haspopup="dialog" aria-controls="ustawienia-prywatnosci">Ustawienia prywatności</button></li>
-        </ul>
+      <div class="site-footer__kolumny">
+        <div class="site-footer__marka">
+          <a class="site-footer__logo" href="#start"><img src="img/logo.png" alt="" width="42" height="45"><span>Namiar na Puls</span></a>
+          <p>Wspólny zbiór danych o defibrylatorach AED – łączymy dane z wielu źródeł w jeden zbiór zgodny ze wzorcem dla dane.gov.pl.</p>
+        </div>
+        <nav class="site-footer__kolumna" aria-labelledby="h-stopka-info">
+          <h3 id="h-stopka-info">Informacje</h3>
+          <ul>
+            <li><a href="https://www.gov.pl/web/gov/polityka-dotyczaca-cookies" target="_blank" rel="noopener noreferrer">Polityka cookies<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+            <li><a href="https://www.gov.pl/web/gov/prawa-autorskie" target="_blank" rel="noopener noreferrer">Prawa autorskie<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+            <li><a href="https://www.gov.pl/web/gov/warunki-korzystania" target="_blank" rel="noopener noreferrer">Warunki korzystania<span class="visually-hidden"> (otwiera się w nowej karcie)</span></a></li>
+            <li><button type="button" id="manage-consent" class="privacy-settings-button" aria-haspopup="dialog" aria-controls="ustawienia-prywatnosci">Ustawienia prywatności</button></li>
+          </ul>
+        </nav>
+        <div class="site-footer__kolumna">
+          <h3>O projekcie</h3>
+          <ul>
+            <li>Autorzy: <strong>wsizENJOYERS</strong></li>
+            <li>HackNation 2026 – zadanie „Misja AED – Dane na ratunek”</li>
+            <li><a href="LICENSES.md">Licencje użytych bibliotek i fontu</a></li>
+            <li>Krój pisma Open Sans (SIL OFL 1.1)</li>
+          </ul>
+        </div>
       </div>
-      <p class="site-footer__autorzy">Autorzy: <strong>wsizENJOYERS</strong></p>
-      <p>Prototyp przygotowany na HackNation 2026 (zadanie „Misja AED – Dane na ratunek”). Nie jest serwisem administracji
-        publicznej i nie jest powiązany z gov.pl ani dane.gov.pl – korzysta tylko z podobnej stylistyki i publicznych usług.</p>
-      <p><a href="LICENSES.md">Licencje użytych bibliotek i fontu</a> · krój Open Sans (SIL OFL 1.1)</p>
+      <p class="site-footer__uwaga">Prototyp. Nie jest serwisem administracji publicznej i nie jest powiązany z gov.pl ani dane.gov.pl – korzysta tylko z podobnej stylistyki i publicznych usług.</p>
     </div>
   </footer>
 

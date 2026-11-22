@@ -1081,21 +1081,20 @@
     return h('section', { class: 'fd-sekcja', id: 'fd-koniec', 'aria-labelledby': 'h-fd-koniec' },
       h('h2', { id: 'h-fd-koniec', tabindex: '-1' }, '3. Przekaż dane'),
       h('p', { id: 'fd-koniec-liczba' }),
-      h('div', { class: 'cards' },
-        h('article', { class: 'card' },
-          h('h3', null, 'Dodaj do wspólnego zbioru'),
-          h('p', null, 'Gdy scalasz dane z wielu źródeł w tej przeglądarce (np. jako koordynator), dodaj te urządzenia jako jedno źródło ',
-            'w rejestrze źródeł. Przejdziesz do kroku 1 scalania.'),
-          h('button', { type: 'button', class: 'btn btn--secondary', id: 'fd-do-scalania', onclick: dodajDoScalania }, 'Dodaj do scalania'))),
-      h('section', { class: 'gov-wysylka', id: 'fd-gov', 'aria-labelledby': 'h-fd-gov' },
-        h('h2', { id: 'h-fd-gov' }, 'Wyślij do zatwierdzenia przez bazę gov.pl'),
+      h('section', { class: 'gov-wysylka', id: 'fd-gov', 'aria-label': 'Wyślij do zatwierdzenia przez bazę gov.pl' },
         h('div', { class: 'gov-przycisk' },
           h('button', { type: 'button', class: 'btn btn--gov btn--big', id: 'fd-wyslij-gov', 'aria-describedby': 'fd-gov-opis', onclick: wyslijDoGov },
             'Wyślij do zatwierdzenia przez bazę gov.pl'),
           h('p', { class: 'hint', id: 'fd-gov-opis' }, 'Wyśle dane do bazy dane.gov.pl (symulacja – zapis w lokalnej bazie projektu).')),
         h('p', { class: 'remote-status gov-postep', id: 'fd-gov-postep', role: 'status', 'aria-live': 'polite' }),
         h('div', { id: 'fd-gov-wynik' })),
-      h('div', { id: 'fd-koniec-stan' }));
+      h('div', { id: 'fd-koniec-stan' }),
+      h('div', { class: 'cards' },
+        h('article', { class: 'card' },
+          h('h3', null, 'Dodaj do wspólnego zbioru'),
+          h('p', null, 'Gdy scalasz dane z wielu źródeł w tej przeglądarce (np. jako koordynator), dodaj te urządzenia jako jedno źródło ',
+            'w rejestrze źródeł. Przejdziesz do kroku 1 scalania.'),
+          h('button', { type: 'button', class: 'btn btn--secondary', id: 'fd-do-scalania', onclick: dodajDoScalania }, 'Dodaj do scalania'))));
   }
 
   let wysylanieGov = false;

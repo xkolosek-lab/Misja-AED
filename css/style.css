@@ -124,6 +124,9 @@ html { scroll-padding-bottom: 6rem; scroll-padding-top: 1rem; }
 .brand:hover { color: var(--c-text); text-decoration: underline; } /* gov.pl .govpl__logotype:hover */
 .brand__icon { width: auto; height: 64px; flex: none; }
 .brand__portal { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-size: 1.15rem; color: var(--c-muted); margin: 0 auto 0 0; }
+/* czerwona pionowa kreska między marką a nazwą portalu – jak gov.pl .govpl__portal-name::before (2px, #d5233f, odstęp 1,8125rem) */
+.brand__portal { align-self: stretch; }
+.brand__portal::before { content: ""; flex: 0 0 2px; align-self: center; height: 2.8rem; background-color: var(--c-accent); margin-right: 1.3125rem; }
 /* bez czerwonej pionowej kreski z nagłówka gov.pl – opis serwisu po prostu obok marki */
 .proto-badge { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
   color: var(--c-err-fg); border: 2px solid var(--c-err-fg); border-radius: var(--radius); padding: 0 .4rem; line-height: 1.5; }
@@ -478,9 +481,6 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
 /* ---- Stopka ---- */
 /* gov.pl .footer: biała, górna linia .1875rem #d5233f, odstępy 1.6em / 2.5em, separator #767676 */
 .site-footer { background: var(--c-bg); border-top: .1875rem solid var(--c-accent); padding-block: 1.6em 2.5em; font-size: .9rem; color: var(--c-text); }
-.site-footer__nazwa { font-weight: 700; font-size: 1.05rem; margin: 0 0 .5rem; }
-.site-footer p { margin: 0 0 .5rem; max-width: 60rem; }
-.site-footer p:last-child { margin: 0; padding-top: .75rem; border-top: 1px solid #767676; color: var(--c-muted); }
 
 /* =========================== Telefon =========================== */
 @media (max-width: 47.99rem) {
@@ -491,6 +491,7 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
   .brand { font-size: 1.4rem; }
   .brand__icon { height: 52px; }
   .brand__portal { font-size: 1rem; }
+  .brand__portal::before { display: none; } /* na telefonie podtytuł jest w osobnej linii – kreska tylko obok marki */
   .top-nav a { padding: .5rem .75rem; font-size: 1.05rem; }
   .step-actions {
     position: sticky; bottom: 0; z-index: 10; background: var(--c-bg);
@@ -591,13 +592,17 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
 .pobierz-szablon__zaawansowane .link-list { margin: .25rem 0 0; }
 
 /* ---- Krok 4: symulowana wysyłka do „bazy gov.pl” ---- */
-.gov-wysylka { margin-top: 2.5rem; padding: 1.25rem; border: .125rem solid var(--c-primary); border-radius: var(--radius); background: var(--c-bg); }
-.gov-wysylka > h2 { margin-top: 0; }
+.gov-wysylka { margin-top: 1.5rem; padding: 0; }
 .gov-wysylka__sym { font-weight: 400; color: var(--c-muted); }
 .gov-wysylka[aria-busy="true"] .gov-przycisk .btn { cursor: progress; }
-.gov-przycisk { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; margin: 1rem 0; }
+.gov-przycisk { display: flex; flex-direction: column; align-items: flex-start; gap: .35rem; margin: 0; }
+.gov-przycisk > .hint { margin: 0; }
 .gov-przycisk .btn { max-width: 100%; white-space: normal; }
-.gov-postep { min-height: 1.5rem; margin: 0 0 1rem; font-weight: 600; color: var(--c-text); }
+.gov-postep { min-height: 1.5rem; margin: .5rem 0 0; font-weight: 600; color: var(--c-text); }
+.gov-postep:empty { min-height: 0; margin: 0; }   /* pusty region statusu nie zajmuje miejsca (zostaje w DOM dla czytników) */
+#gov-wynik:empty, #fd-gov-wynik:empty, #gov-gotowosc:empty { display: none; }
+#gov-gotowosc > .alert { margin: 0 0 .5rem; }
+#gov-wynik > .alert, #fd-gov-wynik > .alert { margin: .75rem 0 0; }
 .gov-postep:empty::before { display: none; }
 .gov-braki { margin: 0; }
 .gov-braki > li { margin-bottom: .35rem; }
@@ -627,15 +632,18 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
 .btn--gov:active { background: #064f27; }
 .btn--gov[aria-disabled="true"] { background: #5f6b76; border-color: #5f6b76; box-shadow: none; cursor: not-allowed; }
 
-/* Stopka jak na gov.pl: logo + poziomy rząd odnośników, przycisk „Ustawienia prywatności” wygląda jak odnośnik */
-.site-footer__links { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 2rem; margin-bottom: .75rem; }
-.site-footer__logo { display: inline-flex; align-items: center; gap: .5rem; font-weight: 700; font-size: 1.05rem; color: var(--c-text); text-decoration: none; }
+/* Stopka: trzy kolumny (marka, informacje, o projekcie) + pasek z zastrzeżeniem; na telefonie kolumny jedna pod drugą */
+.site-footer__kolumny { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 1.5rem 3rem; padding-bottom: 1.25rem; }
+.site-footer__logo { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.35rem; color: var(--c-text); text-decoration: none; }
 .site-footer__logo:visited { color: var(--c-text); }
-.site-footer__links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; }
-.site-footer__links a:not(.site-footer__logo), .privacy-settings-button { color: var(--c-primary); text-decoration: underline; }
-.site-footer__links a:not(.site-footer__logo):hover, .privacy-settings-button:hover { color: var(--c-primary-hover); text-decoration: none; }
+.site-footer__marka p { margin: .6rem 0 0; color: var(--c-muted); max-width: 26rem; }
+.site-footer__kolumna h3 { margin: 0 0 .6rem; font-size: 1rem; text-transform: uppercase; letter-spacing: .04em; }
+.site-footer__kolumna ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.site-footer__kolumna a, .privacy-settings-button { color: var(--c-primary); text-decoration: underline; }
+.site-footer__kolumna a:hover, .privacy-settings-button:hover { color: var(--c-primary-hover); text-decoration: none; }
 .privacy-settings-button { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
-.site-footer .site-footer__autorzy { margin: 0 0 .5rem; }
+.site-footer .site-footer__uwaga { margin: 0; padding-top: .9rem; border-top: 1px solid #767676; color: var(--c-muted); font-size: .85rem; max-width: none; }
+@media (max-width: 47.99rem) { .site-footer__kolumny { grid-template-columns: 1fr; } }
 .dialog-prywatnosc { max-width: min(36rem, calc(100vw - 2rem)); border: .125rem solid var(--c-primary); border-radius: var(--radius); padding: 1.25rem; }
 .dialog-prywatnosc::backdrop { background: rgba(0, 0, 0, .5); }
 .dialog-prywatnosc h2 { margin-top: 0; }
