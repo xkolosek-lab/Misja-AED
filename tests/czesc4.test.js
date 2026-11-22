@@ -582,7 +582,7 @@ function metadanePelne() {
     dataAktualizacji: '2026-11-21T10:15:00',
     daneDynamiczne: false,
     daneWysokiejWartosci: false,
-    warunki: { zrodlo: true, modyfikacja: true, odpowiedzialnosc: 'Dane informacyjne.', licencja: 'CC0 1.0' },
+    warunki: { zrodlo: true, modyfikacja: true, odpowiedzialnosc: 'Dane informacyjne.', bazaDanych: 'Zbiór stanowi bazę danych.', licencja: 'CC0 1.0' },
     dokumenty: [{ url: 'https://przyklad.pl/wzorzec.xlsx', nazwa: 'Wzorcowy zakres danych AED', jezyk: 'pl' }]
   };
 }
@@ -663,7 +663,7 @@ function metadaneJakUI(rekordy, zrodlaLista, adres) {
   m.zrodla = zrodlaLista;
   m.dataAktualizacji = new Date();
   m.warunki = { zrodlo: !!(lic.atrybucje && lic.atrybucje.length) };
-  if (lic.licencjaXml) m.warunki.licencja = lic.licencjaXml;
+  if (lic.licencjaXml) { m.warunki.licencja = lic.licencjaXml; m.warunki.bazaDanych = E.warunekBazyDanych(lic.licencjaXml); }
   const baza = adres && !/\/$/.test(adres) ? adres + '/' : adres;
   const zasoby = ['csv', 'xlsx', 'json', 'geojson', 'rejestr'].map(function (kod) {
     const plik = E.nazwaPliku(kod === 'rejestr' ? 'csv' : kod, null, { przedrostek: kod === 'rejestr' ? 'aed_rejestr_zrodel' : 'aed' });
@@ -707,6 +707,12 @@ test('eksport: XML i datapackage zbudowane jak w UI (wariant CC BY i CC0) – XS
   const x1 = E.metadaneXml(ccby.m, ccby.zasoby), x2 = E.metadaneXml(tylkoGov.m, tylkoGov.zasoby);
   assert.ok(/<dbOrCopyrightedLicenseChosen>CC BY 4.0</.test(x1));
   assert.ok(/<dbOrCopyrightedLicenseChosen>CC0 1.0</.test(x2));
+  // reguła harvestera dane.gov.pl: dbOrCopyrighted i dbOrCopyrightedLicenseChosen zawsze razem (XSD tego nie sprawdza)
+  [x1, x2].forEach(function (x) { assert.ok(/<dbOrCopyrighted>[^<]+<\/dbOrCopyrighted>/.test(x), 'warunek dbOrCopyrighted obok wybranej licencji'); });
+  const bezWarunku = E.walidujMetadane(Object.assign(metadanePelne(), { warunki: { licencja: 'CC0 1.0' } }));
+  assert.ok(bezWarunku.some(function (p) { return p.pole === 'warunki.bazaDanych' && p.kod === 'NIESPOJNY' && p.poziom === 'blad'; }), 'sama licencja bez warunku – błąd');
+  const bezLicencji = E.walidujMetadane(Object.assign(metadanePelne(), { warunki: { bazaDanych: 'Zbiór stanowi bazę danych.' } }));
+  assert.ok(bezLicencji.some(function (p) { return p.pole === 'warunki.licencja' && p.kod === 'NIESPOJNY'; }), 'sam warunek bez licencji – błąd');
   const w = walidujXsd([x1, x2]);
   if (w) { assert.strictEqual(w.status, 0, w.stdout); statystyki.push(['XML jak w UI (CC BY, CC0)', 'ZGODNY (lxml)']); }
   else statystyki.push(['XML jak w UI', 'POMINIĘTO – brak lxml']);

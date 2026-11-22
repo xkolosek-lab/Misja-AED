@@ -43,6 +43,12 @@ module.exports = async function (t) {
   await wpiszPole('fd-d-email_kontaktowy', 'sekretariat');
   ok(await b.ocen("document.getElementById('fd-d-email_kontaktowy').getAttribute('aria-invalid') === 'true' && !document.getElementById('fd-d-email_kontaktowy-blad').hidden && document.getElementById('fd-d-email_kontaktowy').getAttribute('aria-describedby').indexOf('fd-d-email_kontaktowy-blad') >= 0"),
     'błędny e-mail: komunikat przy polu, aria-invalid i aria-describedby');
+  // dane kontaktowe są publiczne – prywatny albo imienny e-mail daje ostrzeżenie (nie blokuje)
+  await wpiszPole('fd-d-email_kontaktowy', 'jan.kowalski@gmail.com');
+  ok(await b.ocen("(function(){ const b = document.getElementById('fd-d-email_kontaktowy-blad'); return !b.hidden && b.className === 'field-warn' && /prywatn/.test(b.textContent) && !document.getElementById('fd-d-email_kontaktowy').hasAttribute('aria-invalid'); })()"),
+    'prywatny e-mail: ostrzeżenie (nie błąd), że dane są publiczne');
+  await wpiszPole('fd-d-email_kontaktowy', 'jan.kowalski@sp1.krosno.example.pl');
+  ok(await b.ocen("/imienny/.test(document.getElementById('fd-d-email_kontaktowy-blad').textContent)"), 'imienny e-mail (imię.nazwisko): ostrzeżenie');
   await wpiszPole('fd-d-email_kontaktowy', 'sekretariat@sp1.krosno.example.pl');
   ok(await b.ocen("!document.getElementById('fd-d-email_kontaktowy').hasAttribute('aria-invalid')"), 'po poprawie e-mail błąd znika');
 

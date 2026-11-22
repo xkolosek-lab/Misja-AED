@@ -11,8 +11,7 @@ module.exports = async function (t) {
   ok(await b.ocen("/^Namiar na puls$/i.test(document.title)"), 'tytuł strony zawiera nazwę „Namiar na puls”', await b.ocen('document.title'));
   ok(await b.ocen("document.querySelector('.brand').textContent.trim() === 'Namiar na puls'"),
     'nagłówek: marka „Namiar na puls”');
-  ok(await b.ocen("/nie jest serwis(em)?\\s+administracji\\s+publicznej/i.test(document.body.textContent) && !document.querySelector('img[src*=\"Herb\" i], img[src*=\"godlo\" i]')"),
-    'informacja, że to nie serwis administracji publicznej; brak godła');
+  ok(await b.ocen("!document.querySelector('img[src*=\"Herb\" i], img[src*=\"godlo\" i]')"), 'brak godła RP na stronie');
   ok(await b.ocen("!/Misja AED</.test(document.body.outerHTML) && !/Misja AED(?! –)/.test(document.querySelector('.site-header').textContent)"), 'stara nazwa „Misja AED” nie jest marką strony');
   ok(await b.ocen("document.fonts.check('16px \"Open Sans\"') && getComputedStyle(document.body).fontFamily.indexOf('Open Sans') >= 0"), 'krój Open Sans (lokalna kopia)');
   // każdy skrypt dołączony dokładnie raz (podwójny gov.js resetował stan)

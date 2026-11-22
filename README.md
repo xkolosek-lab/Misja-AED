@@ -103,6 +103,32 @@ Zgodność z WCAG 2.2 AA sprawdza test e2e `dostepnosc` (`node tests/e2e/uruchom
 i 360 px, tytuł strony opisujący bieżący ekran (2.4.2) oraz to, że przypięty pasek „Wstecz / Następny krok” na telefonie
 nie zasłania elementu z fokusem (2.4.11). Audyt automatyczny nie zastępuje testu z czytnikiem ekranu (NVDA, VoiceOver).
 
+## Zgodność z zasadami dane.gov.pl
+
+Podstawa: ustawa z 11 sierpnia 2021 r. o otwartych danych i ponownym wykorzystywaniu informacji sektora publicznego,
+regulamin portalu oraz Standardy otwartości danych (techniczny, prawny, API) – https://dane.gov.pl/pl/knowledgebase.
+Reguły importu sprawdziliśmy też w kodzie źródłowym portalu (backend „mcod”: harvester XML, lista obsługiwanych formatów).
+
+| Zasada portalu | Jak spełnia ją aplikacja | Jak sprawdzone |
+|---|---|---|
+| Format odczytywalny maszynowo, otwarty | Eksport CSV (zalecany, UTF-8), JSON, GeoJSON, XLSX, metadane XML, `datapackage.json`; brak PDF/DOC | portal ocenia CSV/JSON/GeoJSON na 3★, XLSX na 2★ (ustawienia backendu) |
+| Standard techniczny | UTF-8, wiersz nagłówka, kropka dziesiętna, daty ISO 8601, współrzędne WGS84 | wzorzec `wzorzec/schema.json`, testy `tests/czesc4.test.js` |
+| Harvester XML | Plik metadanych zgodny ze schematem `xml_import_otwarte_dane_1_13.xsd` (kopia: `otwarte_dane_latest.xsd`, identyczna z najnowszą wersją w kodzie portalu) | walidacja lxml w `tests/czesc4.test.js` |
+| Słowniki portalu | Kategorie (13), częstotliwość aktualizacji (8), licencje (7), status, dostępność zasobu, języki – zgodne w 100% ze schematem; kategoria zbioru AED: Zdrowie (HEAL) | porównanie z wyliczeniami w XSD |
+| Reguły harvestera spoza XSD | `extIdent` maks. 36 znaków; adresy zasobów tylko `https://`; warunek dla bazy danych (`dbOrCopyrighted`) zawsze razem z wybraną licencją (`dbOrCopyrightedLicenseChosen`) | `AED.eksport.walidujMetadane`, testy w `tests/czesc4.test.js` |
+| Swobodne ponowne wykorzystanie | Licencje CC0 1.0 (zalecana) i CC BY 4.0; licencja zbioru wyliczana z licencji rekordów, atrybucje dla CC BY | testy scalania i licencji |
+| Aktualność i ciągłość | Stały identyfikator urządzenia `id_aed` (UUID) i stały `extIdent` zbioru; aktualizacja istniejącego zbioru zamiast nowego; urządzeń wycofanych nie usuwamy (status „wycofany”) | testy mapowania i scalania |
+| Ochrona danych | Zbiór opisuje urządzenia i instytucje. Telefon i e-mail mają być służbowe – formularz o tym informuje i ostrzega, gdy e-mail wygląda na prywatny (np. gmail.com) lub imienny (imię.nazwisko) | test e2e `formularz` |
+
+Ograniczenia:
+
+- Przycisk „Wyślij do zatwierdzenia przez bazę gov.pl” to **symulacja** (zapis w lokalnej bazie i plik `wyniki_gov.txt`).
+  Do prawdziwego portalu dane trafiają przez konto dostawcy danych (ręcznie) albo harvester pobierający plik XML spod
+  adresu instytucji.
+- Nie wykonaliśmy importu na produkcyjnym portalu (wymaga konta dostawcy). Harvester pobiera każdy zasób i sprawdza
+  jego typ (`Content-Type`) – to zależy od serwera instytucji, która publikuje pliki. Kody TERYT regionów portal
+  weryfikuje własną usługą; aplikacja sprawdza tylko ich format.
+
 ## Wzorzec danych – jedno źródło prawdy
 
 ```

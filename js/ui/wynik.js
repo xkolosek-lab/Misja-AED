@@ -294,7 +294,7 @@
     m.zrodla = store.zrodla;
     m.dataAktualizacji = new Date();
     m.warunki = { zrodlo: !!(lic.atrybucje && lic.atrybucje.length) };
-    if (lic.licencjaXml) m.warunki.licencja = lic.licencjaXml;
+    if (lic.licencjaXml) { m.warunki.licencja = lic.licencjaXml; m.warunki.bazaDanych = AED.eksport.warunekBazyDanych(lic.licencjaXml); }
     delete m.adresZasobow;
     return m;
   }

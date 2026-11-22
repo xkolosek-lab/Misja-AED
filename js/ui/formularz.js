@@ -35,8 +35,8 @@
     godziny_dostepnosci: { pomoc: 'Np. „pn–pt 7:00–17:00” albo „całodobowo”.' },
     instrukcja_dostepu: { pomoc: 'Kto ma klucz lub kod. Nie wpisuj samego kodu.' },
     dysponent_nazwa: { pomoc: 'Pełna nazwa, np. „Urząd Miasta Krosna”.' },
-    telefon_kontaktowy: { etykieta: 'Telefon (instytucji)', pomoc: 'Np. sekretariat, portiernia.' },
-    email_kontaktowy: { etykieta: 'E-mail do zgłaszania zmian', pomoc: 'Adres funkcyjny, nie imienny.' }
+    telefon_kontaktowy: { etykieta: 'Telefon (instytucji)', pomoc: 'Dane będą publiczne – podaj służbowy numer instytucji (np. sekretariat, portiernia), nie prywatny numer pracownika.' },
+    email_kontaktowy: { etykieta: 'E-mail do zgłaszania zmian', pomoc: 'Dane będą publiczne – podaj adres funkcyjny instytucji (np. sekretariat@…), nie imienny ani prywatny.' }
   };
   function podstawowe(p) { return p.wymagane || !!p.warunek || !!ZAWSZE_WIDOCZNE[p.pole] || WSP.indexOf(p.pole) >= 0; }
 
@@ -364,9 +364,22 @@
     odswiezListe(false);
     odswiezPostep();
   }
+  /** Dane kontaktowe trafiają do publicznego zbioru (dane.gov.pl) – ostrzegamy, gdy e-mail wygląda na prywatny lub imienny.
+      Tylko ostrzeżenie (nie blokuje): heurystyka nie rozpozna każdego przypadku. */
+  const DOMENY_PRYWATNE = /@(gmail\.com|googlemail\.com|wp\.pl|o2\.pl|onet\.pl|onet\.eu|op\.pl|interia\.pl|interia\.eu|poczta\.fm|vp\.pl|tlen\.pl|gazeta\.pl|yahoo\.[a-z.]+|outlook\.[a-z.]+|hotmail\.[a-z.]+|live\.[a-z.]+|icloud\.com|me\.com|proton\.me|protonmail\.com)$/i;
+  function ostrzezeniePrywatnosci(pole, wartosc) {
+    if (pole !== 'email_kontaktowy' || pusta(wartosc)) return null;
+    const e = String(wartosc).trim();
+    if (DOMENY_PRYWATNE.test(e)) return 'Ten adres wygląda na prywatną skrzynkę. Zbiór jest publiczny – użyj adresu w domenie instytucji.';
+    if (/^[a-ząćęłńóśźż]+[._][a-ząćęłńóśźż]+(\d*)@/i.test(e)) return 'Ten adres wygląda na imienny (imię.nazwisko). Zbiór jest publiczny – lepiej podać adres funkcyjny, np. sekretariat@….';
+    return null;
+  }
   function problemyPolaDysp(pole) {
     if (dyspProblemyWpisu[pole]) return [{ pole: pole, poziom: 'blad', komunikat: dyspProblemyWpisu[pole] }];
-    return problemyDysponenta().filter(function (p) { return p.pole === pole; });
+    const lista = problemyDysponenta().filter(function (p) { return p.pole === pole; });
+    const uwaga = ostrzezeniePrywatnosci(pole, st.dysponent[pole]);
+    if (uwaga && !bledy(lista).length) lista.push({ pole: pole, poziom: 'ostrzezenie', kod: 'DANE_PRYWATNE', komunikat: uwaga });
+    return lista;
   }
   function pokazDysponenta(pole) { pokazProblemy('fd-d-', pole, problemyPolaDysp(pole)); }
 

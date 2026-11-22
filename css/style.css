@@ -643,7 +643,7 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
 .btn--gov[aria-disabled="true"] { background: #5f6b76; border-color: #5f6b76; box-shadow: none; cursor: not-allowed; }
 
 /* Stopka: trzy kolumny (marka, informacje, o projekcie) + pasek z zastrzeżeniem; na telefonie kolumny jedna pod drugą */
-.site-footer__kolumny { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 1.5rem 3rem; padding-bottom: 1.25rem; }
+.site-footer__kolumny { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr; gap: 1.5rem 3rem; }
 .site-footer__logo { display: inline-flex; align-items: center; gap: .6rem; font-weight: 700; font-size: 1.35rem; color: var(--c-text); text-decoration: none; }
 .site-footer__logo:visited { color: var(--c-text); }
 .site-footer__marka p { margin: .6rem 0 0; color: var(--c-muted); max-width: 26rem; }
@@ -652,7 +652,6 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
 .site-footer__kolumna a, .privacy-settings-button { color: var(--c-primary); text-decoration: underline; }
 .site-footer__kolumna a:hover, .privacy-settings-button:hover { color: var(--c-primary-hover); text-decoration: none; }
 .privacy-settings-button { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
-.site-footer .site-footer__uwaga { margin: 0; padding-top: .9rem; border-top: 1px solid #767676; color: var(--c-muted); font-size: .85rem; max-width: none; }
 @media (max-width: 47.99rem) { .site-footer__kolumny { grid-template-columns: 1fr; } }
 .dialog-prywatnosc { max-width: min(36rem, calc(100vw - 2rem)); border: .125rem solid var(--c-primary); border-radius: var(--radius); padding: 1.25rem; }
 .dialog-prywatnosc::backdrop { background: rgba(0, 0, 0, .5); }

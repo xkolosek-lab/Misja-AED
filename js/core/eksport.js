@@ -527,6 +527,12 @@
     bools(m, '');
     const wa = m.warunki || {};
     ['odpowiedzialnosc', 'bazaDanych', 'daneOsobowe'].forEach(function (k) { tekst('warunki.' + k, wa[k], k, 0, 4000, false); });
+    // harvester dane.gov.pl (mcod/harvester/serializers.py): oba pola warunku z art. 13 ust. 2 ustawy o ponownym
+    // wykorzystywaniu ISP muszą wystąpić razem – sam wybór licencji bez treści warunku (albo odwrotnie) jest odrzucany
+    if (pusta(wa.bazaDanych) !== pusta(wa.licencja)) {
+      dodaj(pusta(wa.bazaDanych) ? 'warunki.bazaDanych' : 'warunki.licencja', 'blad', 'NIESPOJNY',
+        'Portal dane.gov.pl wymaga obu elementów warunku dla bazy danych: treści warunku (dbOrCopyrighted) i wybranej licencji (dbOrCopyrightedLicenseChosen).');
+    }
     if (!pusta(wa.licencja) && KODY_XML.licencje.indexOf(wa.licencja) < 0) {
       dodaj('warunki.licencja', 'blad', 'SLOWNIK', 'Licencja „' + wa.licencja + '” nie występuje na liście dane.gov.pl.');
     }
@@ -583,7 +589,13 @@
     return przed + '_' + terc + dataIso(data) + '.' + roz;
   }
 
+  /** Treść warunku dbOrCopyrighted (art. 13 ust. 2 ustawy o ponownym wykorzystywaniu ISP) dla wybranej licencji zbioru. */
+  function warunekBazyDanych(licencjaXml) {
+    return 'Zbiór danych o defibrylatorach AED stanowi bazę danych. Można go ponownie wykorzystywać na warunkach licencji ' + licencjaXml + '.';
+  }
+
   AED.eksport = {
+    warunekBazyDanych: warunekBazyDanych,
     SLOWNIKI_XML: SLOWNIKI_XML,
     LICENCJE: LICENCJE,
     kolumny: kolumny,
