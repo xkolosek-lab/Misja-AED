@@ -52,7 +52,7 @@
   --radius-card: .25rem;
   --gap: 1rem;
   --maxw: 72rem;
-  --header-h: 3.5rem;         /* gov.pl .govpl / .govpl-spacer: 3,5rem */
+  --header-h: 5.5rem;         /* nagłówek powiększony ~1,5× względem gov.pl (3,5rem) – wyraźniejsze logo */
   --focus-ring: 0 0 0 2px var(--c-focus), 0 0 0 4px #fff, 0 0 0 6px var(--c-focus);
 }
 
@@ -117,18 +117,18 @@ html { scroll-padding-bottom: 6rem; scroll-padding-top: 1rem; }
 .proto-bar p { margin: 0; padding-block: .35rem; }
 .proto-bar strong { text-transform: uppercase; letter-spacing: .04em; margin-right: .35rem; }
 .site-header { background: var(--c-bg); border-bottom: .125rem solid var(--c-surface); }
-.site-header__inner { display: flex; flex-wrap: wrap; align-items: center; gap: .25rem 1.5rem; min-height: var(--header-h); padding-block: .25rem; }
-.brand { display: inline-flex; align-items: center; gap: .5rem; text-decoration: none; color: var(--c-text); font-weight: 700;
-  font-size: 1.18125rem; line-height: 1; min-height: 44px; }
+.site-header__inner { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 2.25rem; min-height: var(--header-h); padding-block: .5rem; }
+.brand { display: inline-flex; align-items: center; gap: .75rem; text-decoration: none; color: var(--c-text); font-weight: 700;
+  font-size: 1.75rem; line-height: 1; min-height: 44px; }
 .brand:visited { color: var(--c-text); }
 .brand:hover { color: var(--c-text); text-decoration: underline; } /* gov.pl .govpl__logotype:hover */
-.brand__icon { width: auto; height: 40px; flex: none; }
-.brand__portal { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-size: .875rem; color: var(--c-muted); margin: 0 auto 0 0; }
+.brand__icon { width: auto; height: 64px; flex: none; }
+.brand__portal { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; font-size: 1.15rem; color: var(--c-muted); margin: 0 auto 0 0; }
 /* bez czerwonej pionowej kreski z nagłówka gov.pl – opis serwisu po prostu obok marki */
 .proto-badge { display: inline-block; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em;
   color: var(--c-err-fg); border: 2px solid var(--c-err-fg); border-radius: var(--radius); padding: 0 .4rem; line-height: 1.5; }
 .top-nav { display: flex; flex-wrap: wrap; gap: 0 .25rem; list-style: none; margin: 0; padding: 0; }
-.top-nav a { display: inline-block; padding: .5rem .75rem; min-height: 44px; line-height: 28px; color: var(--c-text); text-decoration: none; font-weight: 600; }
+.top-nav a { display: inline-block; padding: .65rem 1rem; min-height: 48px; line-height: 28px; font-size: 1.15rem; color: var(--c-text); text-decoration: none; font-weight: 600; }
 .top-nav a:visited { color: var(--c-text); }
 .top-nav a:hover { color: var(--c-primary-hover); text-decoration: underline; } /* gov.pl menu: hover #006cd7 */
 .top-nav a[aria-current="page"] { color: var(--c-primary); box-shadow: inset 0 -3px 0 var(--c-primary); }
@@ -487,6 +487,11 @@ fieldset[aria-invalid="true"] { border: 2px solid var(--c-err-fg); border-radius
   .stepper { display: none; }
   .stepper-compact { display: block; }
   .top-nav { width: 100%; }
+  /* telefon: nagłówek nadal większy niż pierwotnie, ale mieści się w 320 px */
+  .brand { font-size: 1.4rem; }
+  .brand__icon { height: 52px; }
+  .brand__portal { font-size: 1rem; }
+  .top-nav a { padding: .5rem .75rem; font-size: 1.05rem; }
   .step-actions {
     position: sticky; bottom: 0; z-index: 10; background: var(--c-bg);
     margin-inline: -1rem; padding: .75rem 1rem; box-shadow: 0 -2px 8px rgb(0 0 0 / .12);
