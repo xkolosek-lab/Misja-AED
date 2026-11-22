@@ -21,12 +21,9 @@ jobs:
     # ten sam zestaw co w testy.yml (reusable workflow) – bez dublowania kroków
     uses: ./.github/workflows/testy.yml
 
-  publikacja:
+  budowanie:
     needs: testy
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.wdrozenie.outputs.page_url }}
     steps:
       - uses: actions/checkout@v7
 
@@ -48,5 +45,14 @@ jobs:
           path: _site
           include-hidden-files: true   # .nojekyll (bez niego GitHub Pages przepuszcza stronę przez Jekylla)
 
+  # Osobne zadanie: paczka „github-pages” z zakończonego zadania „budowanie” jest już widoczna dla deploy-pages
+  # (w jednym zadaniu deploy-pages potrafił jej nie znaleźć – „No artifacts named github-pages”).
+  publikacja:
+    needs: budowanie
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.wdrozenie.outputs.page_url }}
+    steps:
       - id: wdrozenie
         uses: actions/deploy-pages@v5
